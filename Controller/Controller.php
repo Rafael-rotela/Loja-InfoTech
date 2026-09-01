@@ -6,6 +6,13 @@ use InfoTech\Model\Model;
 
 abstract class Controller
 {
+    final protected static function isLogged()
+    {
+        if (!isset($_SESSION['usuario_logado'])) {
+            header("Location: /infotech/login");
+        }
+    }
+
     final protected static function isPost(): bool
     {
         return $_SERVER['REQUEST_METHOD'] === "POST";
