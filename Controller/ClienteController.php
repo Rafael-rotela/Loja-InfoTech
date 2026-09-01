@@ -1,64 +1,59 @@
 <?php
 
-namespace InfoTech\Controller;
+namespace InfoTech\Controller; //local onde se encontra a classe ClienteController
 
-use InfoTech\Model\Cliente;
+use InfoTech\Model\Cliente; // irei utilizar a model de cliente
 
-class ClienteController
+class ClienteController extends Controller
 {
 
     public static function index() //TODOS OS CLIENTES
     {
-        $dadosClientes = Cliente::getAllRows(); //pega os dados da model
-        include VIEW . '/Cliente/listar_clientes.php';
+        $model = new Cliente();
+        $model->getAllRows(); //pega os dados da model
+        parent::render('/Cliente/listar_clientes.php', $model);
     }
 
     public static function cadastro() //ENVIAR OS DADOS RECEBIDOS VIA POST
-    {
-     
+    {     
         $model = new Cliente();
-        if($_SERVER['REQUEST_METHOD'] === "POST")
+        if(parent::isPost())
         {
-            $nome = trim($_POST['nome'] ?? '');
-            $status = $_POST['status'] ?? '';
-            $telefone = trim($_POST['telefone'] ?? '');
-            $email = trim($_POST['email'] ?? '');
-
-            if ($nome === '' || $telefone === '' || $email === '' ||
-                !in_array($status, ['ATIVO', 'INATIVO'], true)) {
-                exit('Preencha todos os campos corretamente.');
-            }
-
-            if (!empty($_POST['id_cliente'])) {
-                $model->id_cliente = (int) $_POST['id_cliente'];
-            }
-
-            $model->nome = $nome;
-            $model->status_cliente = $status;
-            $model->telefone = $telefone;
-            $model->email = $email;
+            $model->id_cliente = !empty($_POST['id_cliente']) ? $_POST['id_cliente'] : null;
+            $model->nome = $_POST['nome'];
+            $model->status_cliente = $_POST['status_cliente'];
+            $model->telefone = $_POST['telefone'];
+            $model->email = $_POST['email'];
             // print_r($model);
             // exit;
             $model = $model->save();
-            if ($model->id_cliente) {
-                header("Location: /infotech/cliente/listar");
-                exit;
+            if($model){
+                parent::redirect('/infotech/cliente/listar');
             }
         }
         else{
-            $model = null;
+            if(isset($_GET['id_cliente'])){
 
-            if (!empty($_GET["id_cliente"])) {
-                $id = (int) $_GET['id_cliente'];
-                $model = Cliente::getById($id);
-
-                if ($model === null) {
-                    http_response_code(404);
-                    exit('Cliente não encontrado.');
-                }
+                 $id = $_GET['id_cliente']; //captura o id que veio via GET
+                 $model = Cliente::getById($id); // solicita ao banco o cliente com esse id 
+                //  print_r($model);
+                //  exit;
             }
-            include VIEW . '/Cliente/cadastrar_cliente.php';
+            
+            parent::render('/Cliente/cadastrar_cliente.php', $model);
         }
 
+    }
+
+    public static function exclusao()
+    {
+        if(isset($_GET['id_cliente'])){
+
+            $id = $_GET['id_cliente']; //captura o id que veio via GET
+            $model = new Cliente();
+            $model->delete($id);
+            parent::redirect('/infotech/cliente/listar');
+       }
+        // echo "FUNCAO DE EXCLUIR CLIENTE";
     }
 }

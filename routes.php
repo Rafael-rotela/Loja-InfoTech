@@ -4,7 +4,9 @@ use InfoTech\Controller\{
                         VendedorController, 
                         ClienteController, 
                         ProdutoController,
-                    InicioController  };
+                        InicioController,
+                        LoginController, 
+                };
 
 
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -24,7 +26,15 @@ switch($url)
         ClienteController::cadastro();
     break;
 
+    case "/infotech/cliente/exclusao":
+        ClienteController::exclusao();
+    break;
+
     case "/infotech/admin":
         InicioController::notFound();
+    break;
+    
+    case "/infotech/login":
+        LoginController::index();
     break;
 }

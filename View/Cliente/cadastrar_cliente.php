@@ -8,28 +8,26 @@
 </div>
 
 <form method="POST" action="/infotech/cliente/cadastro">
-  <?php if ($model !== null): ?>
-    <input type="hidden" name="id_cliente" value="<?= (int) $model->id_cliente ?>">
-  <?php endif; ?>
   <div class="mb-3">
+    <input type="hidden" name="id_cliente" id="id_cliente" value="<?= $model->id_cliente ?? '' ?>" >
     <label for="nome" class="form-label">Nome</label>
-    <input type="text" class="form-control" id="nome" name="nome" value="<?= htmlspecialchars($model->nome ?? '', ENT_QUOTES, 'UTF-8') ?>" required>
+    <input type="text" class="form-control" id="nome" name="nome" value="<?= $model->nome ?? '' ?>" >
   </div>
   <div class="mb-3">
     <label for="telefone" class="form-label">Fone</label>
-    <input type="text" class="form-control" id="telefone" name="telefone" value="<?= htmlspecialchars($model->telefone ?? '', ENT_QUOTES, 'UTF-8') ?>" required>
+    <input type="text" class="form-control" id="telefone" name="telefone" value="<?= $model->telefone ?? '' ?>" >
   </div>
 
   <div class="mb-3">
     <label for="email" class="form-label">E-mail</label>
-    <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($model->email ?? '', ENT_QUOTES, 'UTF-8') ?>" required>
+    <input type="email" class="form-control" id="email" name="email" value="<?= $model->email ?? '' ?>" >
   </div>
 
   <div class="mb-3">
-            <select class="form-select" id="status" name="status" required>
-                <option value="" <?= empty($model->status_cliente) ? 'selected' : '' ?> disabled>Selecione o Status</option>
-                <option value="ATIVO" <?= ($model->status_cliente ?? '') === 'ATIVO' ? 'selected' : '' ?>> Ativo </option>
-                <option value="INATIVO" <?= ($model->status_cliente ?? '') === 'INATIVO' ? 'selected' : '' ?>> Inativo </option>
+            <select class="form-select" name="status_cliente" id="status_cliente">
+                <option selected>Selecione o Status</option>
+                <option value="ATIVO"> Ativo </option>
+                <option value="INATIVO"> Inativo </option>
             </select>
   </div>
   

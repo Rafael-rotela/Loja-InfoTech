@@ -11,6 +11,11 @@ class ClienteDAO extends DAO
         parent::__construct();
     }
 
+    public function save(Cliente $model)
+    {
+        return ($model->id_cliente == null) ? $this->insert($model) : $this->update($model);
+    }
+
     public static function select()
     {
         $sql = "SELECT * FROM cliente";
@@ -20,16 +25,16 @@ class ClienteDAO extends DAO
         return $stmt->fetchAll(DAO::FETCH_CLASS, "InfoTech\Model\Cliente");
     }
 
-    public function selectById(int $id)
+    public static function selectById(int $id)
     {
         $sql = "SELECT * FROM cliente WHERE id_cliente = ?";
         $stmt = parent::$connection->prepare($sql);
-        $stmt->bindValue(1, $id, \PDO::PARAM_INT);
+        $stmt->bindValue(1, $id);
         $stmt->execute();
 
-        $cliente = $stmt->fetchObject(Cliente::class);
-        return $cliente ?: null;
+        return $stmt->fetchObject(Cliente::class);
     }
+
     public function insert(Cliente $model)
     {
         $sql = "INSERT INTO cliente (nome,status_cliente,telefone,email) VALUES (?,?,?,?)";
@@ -46,17 +51,28 @@ class ClienteDAO extends DAO
 
     public function update(Cliente $model)
     {
-        $sql = "UPDATE cliente SET nome = ?, status_cliente = ?, telefone = ?, email = ? WHERE id_cliente = ?";
+        $sql = "UPDATE cliente SET nome=?, status_cliente=?, telefone=?, email=? 
+                WHERE id_cliente =?";
         $stmt = parent::$connection->prepare($sql);
         $stmt->bindValue(1, $model->nome);
         $stmt->bindValue(2, $model->status_cliente);
         $stmt->bindValue(3, $model->telefone);
         $stmt->bindValue(4, $model->email);
-        $stmt->bindValue(5, $model->id_cliente, \PDO::PARAM_INT);
-        $stmt->execute();
-
-        return $model;
+        $stmt->bindValue(5, $model->id_cliente);
+        
+        return $stmt->execute();
     }
+
+    public function delete(int $id)
+    {
+        $sql = "DELETE FROM cliente WHERE id_cliente =?";
+        $stmt = parent::$connection->prepare($sql);
+        $stmt->bindValue(1, $id);
+        
+        return $stmt->execute();
+    }
+
+
 
 }
 

@@ -14,20 +14,23 @@
       <th scope="col">Telefone</th>
       <th scope="col">E-mail</th>
       <th scope="col">Status</th>
-      <th scope="col" colspan="2">Ação</th>
+      <th scope="col">Ação</th>
     </tr>
   </thead>
   <tbody>
    <?php
-        foreach($dadosClientes as $cliente):
+    // print_r($model);
+        foreach($model->rows as $cliente):
             echo ' <tr>
                         <th scope="row"> '.$cliente->id_cliente.'  </th>
                         <td> '.$cliente->nome.'  </td>
                         <td> '.$cliente->telefone.'  </td>
                         <td>  '.$cliente->email.'  </td>
                         <td>  '.$cliente->status_cliente.'  </td>
-                        <td>  <a class="btn btn-dark" href="/infotech/cliente/cadastro?id_cliente='.$cliente->id_cliente.'"><i class="bi bi-pencil-square"></i> </a> </td>
-                        <td>  <a class="btn btn-danger" href="/infotech/usuario/deletar?id_cliente='.$cliente->id_cliente.'"><i class="bi bi-trash"></i></a>  </td>
+                        <td> 
+                            <a class="btn btn-dark" href="/infotech/cliente/cadastro?id_cliente='.$cliente->id_cliente.'"> <i class="bi bi-pencil-square"></i>  </a>
+                            <a class="btn btn-danger" href="/infotech/cliente/exclusao?id_cliente='.$cliente->id_cliente.'"> <i class="bi bi-trash-fill"></i> </a>
+                        </td>
                     </tr>';
         endforeach;
    ?>
