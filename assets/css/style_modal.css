@@ -1,0 +1,53 @@
+.modal-cliente[hidden] {
+  display: none;
+}
+
+.modal-cliente {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.modal-caixa {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 32px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+#modalClienteTitulo {
+  margin: 0 0 16px;
+  color: #1e293b;
+  font-size: 24px;
+}
+
+#modalClienteMensagem {
+  margin: 0 0 24px;
+  color: #475569;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.modal-caixa small {
+  color: #64748b;
+  font-size: 13px;
+}
+.oculta {
+  display: none;
+}
+
+.chama {
+  display: flex;
+}
