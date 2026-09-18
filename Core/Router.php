@@ -18,17 +18,17 @@ class Router
     public function dispatch()
     {
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $uri = str_ireplace(URL_BASE, '', $uri);
-        $method= $_SERVER['REQUEST_METHOD'];
+        $uri = str_replace( BASE_DIR, '/', $uri);
+        $method = $_SERVER['REQUEST_METHOD'];
 
-        foreach($this->routes as $routes){
-            if ($routes["method"] === $method && $routes["uri"] ===$uri) {
-                list($controllerName,$methodName) = explode("@",$routes['controller']);
-                $controllerName = "InfoTech\\Controller\\". $controllerName;
-
+        foreach ($this->routes as $route) {
+            if ($route['method'] === $method && $route['uri'] === $uri) {
+                list($controllerName, $methodName) = explode('@', $route['controller']);
+                $controllerName = "InfoTech\\Controller\\" . $controllerName;
+                
                 if (class_exists($controllerName)) {
                     $controller = new $controllerName();
-                    if (method_exists($controller,$methodName)) {
+                    if (method_exists($controller, $methodName)) {
                         $controller->$methodName();
                         return;
                     }
@@ -37,6 +37,6 @@ class Router
         }
 
         http_response_code(404);
-        echo "404";
+        echo "404 - Page Not Found";
     }
 }

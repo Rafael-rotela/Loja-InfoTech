@@ -6,27 +6,27 @@ use InfoTech\Model\Funcionario;
 
 class LoginController extends Controller
 {
+
     public static function index()
     {
         $model = new Funcionario();
-
-        if (parent::isPost()) {
+        if(parent::isPost())
+        {
             $model->email = $_POST['email'];
             $model->senha = $_POST['senha'];
-
             $usuario_logado = $model->logar();
-
-            if($usuario_logado !== false)
-            {
+            // var_dump($model->logar());
+            // exit;
+            if($usuario_logado === false){
+                parent::redirect('/infotech/login');
+            }
+            else{
                 $_SESSION['usuario_logado'] = $usuario_logado;
-                parent::redirect('/infotech/cliente/listar');    
+                parent::redirect('/infotech/cliente/listar'); ## REDIRECIONAR DASHBOARD
             }
-            else
-            {
-                echo "Usuario nao encontrado!";
-            }
+        
         }
-        parent::render("/Login/form_login.php", $model);
+        parent::render('/Login/form_login.php', $model);
     }
 
     public static function logout()

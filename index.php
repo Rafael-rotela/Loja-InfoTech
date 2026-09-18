@@ -2,12 +2,12 @@
 
 session_start();
 
-require_once 'config.php';
-require_once 'autoload.php';
-require_once 'Core/Router.php';
+include 'config.php'; //define os diretórios os o autoload vai buscar
+include 'autoload.php'; // busco as classes e faço o include de todas classes no INDEX
 use InfoTech\Core\Router;
 
 $router = new Router();
-require 'Core/route.php';
+
+include './Core/routes.php';
 
 $router->dispatch();

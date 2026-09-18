@@ -8,9 +8,8 @@ abstract class Controller
 {
     final protected static function isLogged()
     {
-        if (!isset($_SESSION['usuario_logado'])) {
+        if( !isset($_SESSION['usuario_logado']))
             header("Location: /infotech/login");
-        }
     }
 
     final protected static function isPost(): bool
@@ -26,5 +25,12 @@ abstract class Controller
     final protected static function render(string $view, ?Model $model): void
     {
         include VIEW . $view;
+    }
+
+    final protected static function jsonResponse(array $data)
+    {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($data);
+        exit;
     }
 }
