@@ -16,6 +16,15 @@ class CategoriaDAO extends DAO
         return ($model->id_categoria == null) ? $this->insert($model) : $this->update($model);
     }
 
+    public static function select()
+    {
+        $sql = "SELECT * FROM categoria";
+        $stmt = parent::$connection->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(DAO::FETCH_CLASS, "InfoTech\Model\Categoria");
+    }
+
     public function insert(Categoria $model)
     {
         $sql = "INSERT INTO categoria (nome,descricao) VALUES (?,?)";
@@ -40,33 +49,7 @@ class CategoriaDAO extends DAO
         return $stmt->execute();
     }
 
-    public function selectById(int $id) : ?Categoria
-    {
-        $sql ="SELECT * FROM categoria WHERE id_categoria = ?";
+  
 
-        $stmt = parent::$connection->prepare($sql);
-        $stmt->bindValue(1, $id);
-        $stmt->execute();
-
-        return $stmt->fetchObject("App\Model\Categoria");
-    }
-
-    
-    public static function select()
-    {
-        $sql = "SELECT * FROM categoria";
-        $stmt = parent::$connection->prepare($sql);
-        $stmt->execute();
-
-        return $stmt->fetchAll(DAO::FETCH_CLASS, "InfoTech\Model\Categoria");
-    }
-
-    public static function delete(int $id)
-    {
-        $sql = "DELETE FROM categoria WHERE id_categoria = ?";
-
-        $stmt = parent::$connection->prepare($sql);
-        $stmt->bindValue(1,$id);
-        return $stmt->execute();
-    }
 }
+

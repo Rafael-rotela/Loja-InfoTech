@@ -41,9 +41,11 @@
               data-selecionado="<?= $model->id_categoria ?? '' ?>">
         <option value="" disabled selected>Carregando categorias...</option>
       </select>
+      <?php if ($usuario->pode('categoria.cadastrar')): ?>
       <button type="button" class="btn btn-outline-secondary" id="btn_nova_categoria">
         <i class="bi bi-plus-lg"></i> Categoria
       </button>
+      <?php endif; ?>
     </div>
   </div>
   

@@ -8,16 +8,19 @@ class ClienteController extends Controller
 
     public static function index() //TODOS OS CLIENTES
     {
-        parent::isLogged(); ##chama o método que valida se o usuário está logado
+        parent::autorizar('cliente.listar');
         $model = new Cliente();
         $model->getAllRows(); //pega os dados da model
-        
+
         parent::render('/Cliente/listar_clientes.php', $model);
     }
 
     public static function cadastro() //ENVIAR OS DADOS RECEBIDOS VIA POST
-    {     
-        parent::isLogged();
+    {
+        // a mesma rota cria E edita: a permissão depende de vir id ou não
+        $id = $_POST['id_cliente'] ?? $_GET['id_cliente'] ?? '';
+        parent::autorizar(empty($id) ? 'cliente.cadastrar' : 'cliente.editar');
+
         $model = new Cliente();
         if(parent::isPost())
         {
@@ -27,8 +30,6 @@ class ClienteController extends Controller
             $model->telefone = $_POST['telefone'];
             $model->email = $_POST['email'];
             $model->id_categoria = $_POST['id_categoria'];
-            // print_r($model);
-            // exit;
             $model = $model->save();
             if($model){
                 parent::redirect('/infotech/cliente/listar');
@@ -38,11 +39,9 @@ class ClienteController extends Controller
             if(isset($_GET['id_cliente'])){
 
                  $id = $_GET['id_cliente']; //captura o id que veio via GET
-                 $model = Cliente::getById($id); // solicita ao banco o cliente com esse id 
-                //  print_r($model);
-                //  exit;
+                 $model = Cliente::getById($id); // solicita ao banco o cliente com esse id
             }
-            
+
             parent::render('/Cliente/cadastrar_cliente.php', $model);
         }
 
@@ -50,7 +49,7 @@ class ClienteController extends Controller
 
     public static function exclusao()
     {
-        parent::isLogged();
+        parent::autorizar('cliente.excluir');
         if(isset($_GET['id_cliente'])){
 
             $id = $_GET['id_cliente']; //captura o id que veio via GET
@@ -58,6 +57,5 @@ class ClienteController extends Controller
             $model->delete($id);
             parent::redirect('/infotech/cliente/listar');
        }
-        // echo "FUNCAO DE EXCLUIR CLIENTE";
     }
 }

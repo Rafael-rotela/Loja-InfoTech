@@ -7,6 +7,10 @@
     <h1> Login </h1>
 </div>
 
+<?php if (isset($_GET['erro'])): ?>
+  <div class="alert alert-danger">E-mail ou senha inválidos, ou usuário inativo.</div>
+<?php endif; ?>
+
 <form method="POST" action="/infotech/login">
  
   <div class="mb-3">

@@ -11,6 +11,14 @@ $router->add('GET',  '/infotech/cliente/cadastro', 'ClienteController@cadastro')
 $router->add('POST', '/infotech/cliente/cadastro', 'ClienteController@cadastro');
 $router->add('GET',  '/infotech/cliente/exclusao', 'ClienteController@exclusao');
 
-// Categoria (rotas usadas pelo JS via fetch, respondem JSON)
+// Categoria - rotas usadas pelo JS via fetch, respondem JSON
 $router->add('GET',  '/infotech/categoria/listar',   'CategoriaController@listar');
 $router->add('POST', '/infotech/categoria/cadastro', 'CategoriaController@cadastro');
+
+// Notificações - rotas usadas pelo notificacao.js, respondem JSON
+$router->add('GET',  '/infotech/notificacao/listar',       'NotificacaoController@listar');
+$router->add('POST', '/infotech/notificacao/marcar-lidas', 'NotificacaoController@marcarLidas');
+// Funcionários - só quem tem 'funcionario.gerenciar' (checado no controller)
+$router->add('GET',  '/infotech/funcionario/listar',   'FuncionarioController@index');
+$router->add('GET',  '/infotech/funcionario/cadastro', 'FuncionarioController@cadastro');
+$router->add('POST', '/infotech/funcionario/cadastro', 'FuncionarioController@cadastro');

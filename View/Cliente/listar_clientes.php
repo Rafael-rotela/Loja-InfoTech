@@ -27,10 +27,17 @@
                         <td> '.$cliente->telefone.'  </td>
                         <td>  '.$cliente->email.'  </td>
                         <td>  '.$cliente->status_cliente.'  </td>
-                        <td> 
-                            <a class="btn btn-dark" href="/infotech/cliente/cadastro?id_cliente='.$cliente->id_cliente.'"> <i class="bi bi-pencil-square"></i>  </a>
-                            <a class="btn btn-danger" href="/infotech/cliente/exclusao?id_cliente='.$cliente->id_cliente.'"> <i class="bi bi-trash-fill"></i> </a>
-                        </td>
+                        <td> ';
+
+            // RBAC: cada botão só aparece para quem tem a permissão
+            if ($usuario->pode('cliente.editar')) {
+                echo '<a class="btn btn-dark" href="/infotech/cliente/cadastro?id_cliente='.$cliente->id_cliente.'"> <i class="bi bi-pencil-square"></i> </a> ';
+            }
+            if ($usuario->pode('cliente.excluir')) {
+                echo '<a class="btn btn-danger" href="/infotech/cliente/exclusao?id_cliente='.$cliente->id_cliente.'"> <i class="bi bi-trash-fill"></i> </a>';
+            }
+
+            echo '      </td>
                     </tr>';
         endforeach;
    ?>
