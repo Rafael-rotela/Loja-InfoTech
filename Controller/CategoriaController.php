@@ -10,7 +10,6 @@ class CategoriaController extends Controller
 
         public static function listar()
         {
-            parent::autorizarJson('categoria.listar');
             try
             {
                 $model = new Categoria();
@@ -37,7 +36,6 @@ class CategoriaController extends Controller
 
         public static function cadastro()
         {
-            parent::autorizarJson('categoria.cadastrar');
             $model = new Categoria();
             $model->id_categoria = null;
             $model->nome = $_POST['nome'];

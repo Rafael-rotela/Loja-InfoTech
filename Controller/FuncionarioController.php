@@ -9,7 +9,6 @@ class FuncionarioController extends Controller
 {
     public static function index()
     {
-        parent::autorizar('funcionario.gerenciar');
         $model = new Funcionario();
         $model->getAllRows();
 
@@ -18,7 +17,6 @@ class FuncionarioController extends Controller
 
     public static function cadastro()
     {
-        parent::autorizar('funcionario.gerenciar');
         $model = new Funcionario();
 
         if (parent::isPost()) {

@@ -8,7 +8,6 @@ class ClienteController extends Controller
 
     public static function index() //TODOS OS CLIENTES
     {
-        parent::autorizar('cliente.listar');
         $model = new Cliente();
         $model->getAllRows(); //pega os dados da model
 
@@ -17,7 +16,8 @@ class ClienteController extends Controller
 
     public static function cadastro() //ENVIAR OS DADOS RECEBIDOS VIA POST
     {
-        // a mesma rota cria E edita: a permissão depende de vir id ou não
+        // A rota já exigiu 'cliente.cadastrar' OU 'cliente.editar'.
+        // Aqui refinamos: qual das duas, depende de vir id no request.
         $id = $_POST['id_cliente'] ?? $_GET['id_cliente'] ?? '';
         parent::autorizar(empty($id) ? 'cliente.cadastrar' : 'cliente.editar');
 
@@ -49,7 +49,6 @@ class ClienteController extends Controller
 
     public static function exclusao()
     {
-        parent::autorizar('cliente.excluir');
         if(isset($_GET['id_cliente'])){
 
             $id = $_GET['id_cliente']; //captura o id que veio via GET
